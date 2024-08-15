@@ -19,7 +19,7 @@ type server struct {
 	desc.UnimplementedUserV1Server
 }
 
-// Получаем пользователя по id
+// Get Получает пользователя по id
 func (s *server) Get(ctx context.Context, req *desc.GetRequest) (*desc.GetResponse, error) {
 	select {
 	case <-ctx.Done():
@@ -40,7 +40,7 @@ func (s *server) Get(ctx context.Context, req *desc.GetRequest) (*desc.GetRespon
 	}, nil
 }
 
-// Создаём пользователя
+// Create Создаёт пользователя
 func (s *server) Create(ctx context.Context, req *desc.CreateRequest) (*desc.CreateResponse, error) {
 	select {
 	case <-ctx.Done():
@@ -54,7 +54,7 @@ func (s *server) Create(ctx context.Context, req *desc.CreateRequest) (*desc.Cre
 	return &desc.CreateResponse{Id: gofakeit.Int64()}, nil
 }
 
-// Обновляем данные пользователя (можем частично)
+// Update Обновляет данные пользователя (можем частично)
 func (s *server) Update(ctx context.Context, req *desc.UpdateRequest) (*emptypb.Empty, error) {
 	select {
 	case <-ctx.Done():
@@ -67,7 +67,7 @@ func (s *server) Update(ctx context.Context, req *desc.UpdateRequest) (*emptypb.
 	return &emptypb.Empty{}, nil
 }
 
-// Удаляем пользователя по id
+// Delete Удаляет пользователя по id
 func (s *server) Delete(ctx context.Context, req *desc.DeleteRequest) (*emptypb.Empty, error) {
 	select {
 	case <-ctx.Done():
