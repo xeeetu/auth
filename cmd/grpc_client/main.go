@@ -24,8 +24,7 @@ func main() {
 	}
 
 	defer func() {
-		err := conn.Close()
-		if err != nil {
+		if errCon := conn.Close(); errCon != nil {
 			log.Fatal(err)
 		}
 	}()
