@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package user;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option go_package = "github.com/xeeetu/auth/pkg/user_v1;user_v1";
+
+enum TypeUser {
+  INVALID = 0;
+  ADMIN = 1;
+  USER = 2;
+}
+
+service UserV1 {
+  rpc Create(CreateRequest) returns (CreateResponse);
+  rpc Get(GetRequest) returns (GetResponse);
+  rpc Update(UpdateRequest) returns (google.protobuf.Empty);
+  rpc Delete(DeleteRequest) returns (google.protobuf.Empty);
+}
+
+message CreateRequest {
+  string name = 1; // имя пользователя
+  string email = 2; // email пользователя
+  string password = 3; // пароль пользователя
+  string password_confirm = 4; // повторение пароля
+  TypeUser role = 5; // категория пользователя (админ и обычный)
+}
+
+message CreateResponse {
+  int64 id = 1; // id пользователя
+}
+
+message GetRequest {
+  int64 id = 1; // id пользователя
+}
+
+message GetResponse {
+  int64 id = 1; // id пользователя
+  string name = 2; // имя пользователя
+  string email = 3; // email пользователя
+  TypeUser role = 4; // категория пользователя (админ и обычный)
+  google.protobuf.Timestamp created_at = 5; // время создания пользователя
+  google.protobuf.Timestamp updated_at = 6; // время обновления данных пользователя
+}
+
+message UpdateRequest {
+  int64 id = 1; // id пользователя
+  google.protobuf.StringValue name = 2;  // имя пользователя (может быть нулом)
+  google.protobuf.StringValue email = 3; // email пользователя (может быть нулом)
+}
+
+message DeleteRequest {
+  int64 id = 1; // id пользователя
+}
