@@ -19,32 +19,64 @@ type server struct {
 	desc.UnimplementedUserV1Server
 }
 
+// Получаем пользователя по id
 func (s *server) Get(ctx context.Context, req *desc.GetRequest) (*desc.GetResponse, error) {
-	fmt.Println("\nGet user with id: ", req.GetId())
+	select {
+	case <-ctx.Done():
+		// Если контекст отменён, возвращаем ошибку
+		return nil, ctx.Err()
+	default:
+		// Продолжаем выполнение
+	}
+	fmt.Println("Get user with id: ", req.GetId())
 
 	return &desc.GetResponse{
 		Id:        req.GetId(),
 		Name:      gofakeit.Name(),
 		Email:     gofakeit.Email(),
-		Role:      desc.TypeUser_user,
+		Role:      desc.TypeUser_USER,
 		CreatedAt: timestamppb.New(gofakeit.Date()),
 		UpdatedAt: timestamppb.New(gofakeit.Date()),
 	}, nil
 }
 
+// Создаём пользователя
 func (s *server) Create(ctx context.Context, req *desc.CreateRequest) (*desc.CreateResponse, error) {
-	fmt.Printf("\nCreate user: %v", req)
+	select {
+	case <-ctx.Done():
+		// Если контекст отменён, возвращаем ошибку
+		return nil, ctx.Err()
+	default:
+		// Продолжаем выполнение
+	}
+	fmt.Printf("Create user: %v", req)
 
 	return &desc.CreateResponse{Id: gofakeit.Int64()}, nil
 }
 
+// Обновляем данные пользователя (можем частично)
 func (s *server) Update(ctx context.Context, req *desc.UpdateRequest) (*emptypb.Empty, error) {
-	fmt.Printf("\nUpdate user: %v", req)
+	select {
+	case <-ctx.Done():
+		// Если контекст отменён, возвращаем ошибку
+		return nil, ctx.Err()
+	default:
+		// Продолжаем выполнение
+	}
+	fmt.Printf("Update user: %v", req)
 	return &emptypb.Empty{}, nil
 }
 
+// Удаляем пользователя по id
 func (s *server) Delete(ctx context.Context, req *desc.DeleteRequest) (*emptypb.Empty, error) {
-	fmt.Printf("\nDelete user with id: %v", req.GetId())
+	select {
+	case <-ctx.Done():
+		// Если контекст отменён, возвращаем ошибку
+		return nil, ctx.Err()
+	default:
+		// Продолжаем выполнение
+	}
+	fmt.Printf("Delete user with id: %v", req.GetId())
 	return &emptypb.Empty{}, nil
 }
 
